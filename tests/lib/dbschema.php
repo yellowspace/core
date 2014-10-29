@@ -95,7 +95,7 @@ class Test_DBSchema extends \Test\TestCase {
 		//$content = str_replace( '*dbprefix*', '*dbprefix*'.$r, $content );
 		file_put_contents( $schema_file, $content );
 
-		\OC_DB::enableCaching(false);
+		//\OC_DB::enableCaching(false);
 		\OC_DB::createDbFromStructure($schema_file);
 		\OC_DB::updateDbFromStructure($schema_file);
 		
