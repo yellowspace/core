@@ -175,7 +175,7 @@ class Migrator {
 	protected function getDiff(Schema $targetSchema, \Doctrine\DBAL\Connection $connection) {
 		$filterExpression = $this->getFilterExpression();
 		$this->connection->getConfiguration()->
-		setFilterSchemaAssetsExpression($filterExpression);
+			setFilterSchemaAssetsExpression($filterExpression);
 		$sourceSchema = $connection->getSchemaManager()->createSchema();
 
 		// remove tables we don't know about
@@ -189,6 +189,20 @@ class Migrator {
 		foreach ($sourceSchema->getSequences() as $table) {
 			if (!$targetSchema->hasSequence($table->getName())) {
 				$sourceSchema->dropSequence($table->getName());
+			}
+		}
+
+		// Set the autoincrement for integer columns of the primary key
+		// This is required, because we manually set the primary key for
+		// autoincrement columns in \OC\DB\OCSqlitePlatform()
+		foreach ($targetSchema->getTables() as $table) {
+			if ($table->hasPrimaryKey()) {
+				foreach ($table->getPrimaryKeyColumns() as $column) {
+					$column = $table->getColumn($column);
+					if ($column->getType() instanceof \Doctrine\DBAL\Types\IntegerType) {
+						$column->setAutoincrement(true);
+					}
+				}
 			}
 		}
 
