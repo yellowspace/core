@@ -181,6 +181,21 @@ class SMB extends Common {
 	}
 
 	/**
+	 * @param string $path1 the old name
+	 * @param string $path2 the new name
+	 * @return bool
+	 */
+	public function rename($path1, $path2) {
+		$this->remove($path2);
+		$path1 = $this->buildPath($path1);
+		$path2 = $this->buildPath($path2);
+		$result = $this->share->rename($path1, $path2);
+
+		// non-native Share implementation does not return bool in fact
+		return is_bool($result) ? $result : true;
+	}
+
+	/**
 	 * check if a file or folder has been updated since $time
 	 *
 	 * @param string $path
