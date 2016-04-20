@@ -42,7 +42,9 @@ $config = \OC::$server->getConfig();
 $urlGenerator = \OC::$server->getURLGenerator();
 
 // Highlight navigation entry
-OC_Util::addScript( 'settings', 'personal' );
+OC_Util::addScript('settings', 'federationsettingsview');
+OC_Util::addScript('settings', 'federationscopemenu');
+OC_Util::addScript('settings', 'personal');
 OC_Util::addScript('settings', 'certificates');
 OC_Util::addStyle( 'settings', 'settings' );
 \OC_Util::addVendorScript('strengthify/jquery.strengthify');
