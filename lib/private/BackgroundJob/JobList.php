@@ -173,6 +173,7 @@ class JobList implements IJobList {
 		$query->select('*')
 			->from('jobs')
 			->where($query->expr()->lt('id', $query->createNamedParameter($lastId, IQueryBuilder::PARAM_INT)))
+			->andWhere($query->expr()->eq('reserved', $query->createNamedParameter(0, IQueryBuilder::PARAM_INT)))
 			->orderBy('id', 'DESC')
 			->setMaxResults(1);
 		$result = $query->execute();

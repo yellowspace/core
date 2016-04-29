@@ -973,6 +973,18 @@
 				<default></default>
 				<notnull>false</notnull>
 			</field>
+			<field>
+				<name>reserved</name>
+				<type>integer</type>
+				<default>0</default>
+				<notnull>false</notnull>
+			</field>
+			<field>
+				<name>reserved_at</name>
+				<type>timestamp</type>
+				<default></default>
+				<notnull>false</notnull>
+			</field>
 
 			<index>
 				<name>job_class_index</name>
