@@ -40,6 +40,13 @@ $application->registerRoutes($this, [
 			'verb' => 'GET'
 		],
 	],
+	'ocs' => [
+		[
+			'name' => 'foo#bar',
+			'url' => '/api/v1/shares2',
+			'verb' => 'GET',
+		]
+	]
 ]);
 
 /** @var $this \OCP\Route\IRouter */
