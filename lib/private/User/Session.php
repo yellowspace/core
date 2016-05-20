@@ -387,16 +387,37 @@ class Session implements IUserSession, Emitter {
 			return false;
 		}
 		$name = isset($request->server['HTTP_USER_AGENT']) ? $request->server['HTTP_USER_AGENT'] : 'unknown browser';
-		$loggedIn = $this->login($uid, $password);
-		if ($loggedIn) {
-			try {
-				$sessionId = $this->session->getId();
-				$this->tokenProvider->generateToken($sessionId, $uid, $password, $name);
-			} catch (SessionNotAvailableException $ex) {
-				
-			}
+		try {
+			$sessionId = $this->session->getId();
+		} catch (SessionNotAvailableException $ex) {
+			return false;
 		}
-		return $loggedIn;
+
+		try {
+			$loginPassword = $this->getUserPassword($uid, $password);
+		} catch (InvalidTokenException $ex) {
+			return false;
+		}
+
+		$this->tokenProvider->generateToken($sessionId, $uid, $loginPassword, $name);
+		return true;
+	}
+
+	/**
+	 * @param type $uid
+	 * @param type $password
+	 * @param type $sessionId
+	 * @throws InvalidTokenException
+	 * @return string
+	 */
+	private function getUserPassword($uid, $password) {
+		if ($this->manager->checkPassword($uid, $password)) {
+			// Password is login password, nothing to do
+			return $password;
+		}
+		// Password might be a token, so we have to load the token first
+		$token = $this->tokenProvider->getToken($password);
+		return $this->tokenProvider->getPassword($token, $password);
 	}
 
 	/**

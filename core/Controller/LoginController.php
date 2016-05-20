@@ -184,6 +184,8 @@ class LoginController extends Controller {
 			$args = !is_null($user) ? ['user' => $user] : [];
 			return new RedirectResponse($this->urlGenerator->linkToRoute('core.login.showLoginForm', $args));
 		}
+		// Check if double password check is really needed
+		$this->userSession->login($loginResult->getUID(), $password);
 		$this->userSession->createSessionToken($this->request, $loginResult->getUID(), $password);
 		if (!is_null($redirect_url) && $this->userSession->isLoggedIn()) {
 			$location = $this->urlGenerator->getAbsoluteURL(urldecode($redirect_url));
