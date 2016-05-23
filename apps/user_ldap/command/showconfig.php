@@ -1,6 +1,6 @@
 <?php
 /**
- * @author Arthur Schiwon <blizzz@owncloud.com>
+ * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
  * @author Laurens Post <Crote@users.noreply.github.com>
  * @author Morris Jobke <hey@morrisjobke.de>
  *
